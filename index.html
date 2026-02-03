@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farkle Score Keeper Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Setup Screen -->
+        <div id="setup-screen" class="screen active">
+            <h1>🎲 Farkle Score Keeper with Flashystuff</h1>
+            <div class="setup-content">
+                <h2>Enter Player Names (2-8 players)</h2>
+                <div id="player-inputs"></div>
+                <div class="setup-actions">
+                    <button id="add-player-btn" class="btn btn-secondary">+ Add Player</button>
+                    <button id="start-game-btn" class="btn btn-primary" disabled>Start Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <header>
+                <div class="game-header">
+                    <button id="menu-btn" class="btn-icon" aria-label="Menu">☰</button>
+                    <div class="game-info">
+                        <div class="current-turn">
+                            <span class="label">Current Turn</span>
+                            <div id="current-player-name" class="player-name-display"></div>
+                        </div>
+                        <div class="game-status">
+                            <span id="round-indicator"></span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <!-- Scoreboard Section -->
+                <div class="scoreboard-container">
+                    <div id="scoreboard" class="scoreboard"></div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <div class="score-input-section">
+                        <label for="turn-score-input" class="input-label">Enter Score for This Turn</label>
+                        <div class="quick-scores">
+                            <button type="button" class="btn-quick" data-value="50">+50</button>
+                            <button type="button" class="btn-quick" data-value="100">+100</button>
+                            <button type="button" class="btn-quick" data-value="500">+500</button>
+                            <button type="button" class="btn-quick" data-value="1000">+1k</button>
+                            <button type="button" class="btn-quick" id="clear-input">Clear</button>
+                        </div>
+                        <div class="input-group">
+                            <input 
+                                type="number" 
+                                id="turn-score-input" 
+                                placeholder="0" 
+                                inputmode="numeric"
+                                min="0"
+                                aria-label="Turn score input">
+                            <button id="submit-score-btn" class="btn btn-primary">
+                                <span>Submit</span>
+                                <span class="keyboard-hint">⏎</span>
+                            </button>
+                        </div>
+                        <div id="score-validation" class="validation-message"></div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="farkle-btn" class="btn btn-danger">
+                            <span class="btn-icon-text">🚫</span>
+                            <span>Farkle!</span>
+                        </button>
+                        <button id="undo-btn" class="btn btn-secondary" disabled>
+                            <span>↶ Undo</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Panel -->
+                <div id="stats-panel" class="stats-panel collapsed">
+                    <button id="toggle-stats" class="stats-toggle">
+                        <span>📊 Statistics</span>
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                    <div class="stats-content">
+                        <div class="stat-item">
+                            <span class="stat-label">Highest Turn:</span>
+                            <span id="stat-highest-turn">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Average Score:</span>
+                            <span id="stat-avg-score">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Farkles:</span>
+                            <span id="stat-total-farkles">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Turns Played:</span>
+                            <span id="stat-turns-played">0</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="win-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <h2 id="modal-title">🎉 Game Over!</h2>
+            <div id="winner-text"></div>
+            <div id="final-stats"></div>
+            <div class="modal-actions">
+                <button id="rematch-btn" class="btn btn-secondary">🔄 Rematch</button>
+                <button id="new-game-btn" class="btn btn-primary">✨ New Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div id="menu-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <h2>Game Menu</h2>
+            <div class="menu-actions">
+                <button id="save-game-btn" class="btn btn-secondary">💾 Save Game</button>
+                <button id="reset-game-btn" class="btn btn-danger">🔄 Reset Game</button>
+                <button id="close-menu-btn" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
