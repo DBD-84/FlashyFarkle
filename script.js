@@ -82,6 +82,7 @@ function init() {
     document.getElementById('rematch-btn').onclick = handleRematch;
     document.getElementById('new-game-btn').onclick = () => {
         localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem('farkle_fresh_start', 'true');
         location.reload();
     };
     document.getElementById('menu-btn').onclick = toggleMenu;
@@ -580,6 +581,13 @@ function saveGameToStorage() {
 
 function loadGameFromStorage() {
     try {
+        // Check if user requested a fresh start
+        if (localStorage.getItem('farkle_fresh_start') === 'true') {
+            localStorage.removeItem('farkle_fresh_start');
+            localStorage.removeItem(STORAGE_KEY);
+            return;
+        }
+        
         const saved = localStorage.getItem(STORAGE_KEY);
         if (!saved) return;
         
