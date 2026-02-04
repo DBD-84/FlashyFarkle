@@ -80,7 +80,10 @@ function init() {
     
     // Modals
     document.getElementById('rematch-btn').onclick = handleRematch;
-    document.getElementById('new-game-btn').onclick = () => location.reload();
+    document.getElementById('new-game-btn').onclick = () => {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+    };
     document.getElementById('menu-btn').onclick = toggleMenu;
     document.getElementById('close-menu-btn').onclick = toggleMenu;
     document.getElementById('save-game-btn').onclick = saveGameToStorage;
