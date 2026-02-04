@@ -698,7 +698,11 @@ function handleRematch() {
     
     document.getElementById('win-modal').classList.add('hidden');
     updateUI();
+    
+    // Clear and immediately save the fresh state
+    localStorage.removeItem(STORAGE_KEY);
     saveGameToStorage();
+    
     showToast('New game started with same players!', 'success');
 }
 
